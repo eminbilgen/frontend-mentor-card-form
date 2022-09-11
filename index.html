@@ -15,6 +15,7 @@
       padding: 0;
       margin: 0;
       --color-primary: #220930;
+      --error-color: hsl(0, 100%, 66%);
       font-family: Space Grotesk, sans-serif;
       display: flex;
     }
@@ -51,7 +52,7 @@
       justify-content: center;
       align-items: flex-start;
       height: 25%;
-      width: 95%;
+      width: 100%;
     }
     .right div label{
       font-size: .8rem;
@@ -62,12 +63,10 @@
       align-items: center;
       letter-spacing: 2px;
     }
-    .right div input{
+    .right div borders{
       height: 35%;
       width: 100%;
-      border: 1px solid hsl(270, 3%, 87%);
       border-radius: 8px;
-      background-color: transparent;
       font-size: 1.2rem;
       font-weight: 500;
       color: var(--color-primary);
@@ -87,8 +86,8 @@
       width: 40%;
       height: 40%;
     }
-    .right .dateinputs input{
-      width: 40%;
+    .right .dateinputs borders{
+      width: 45%;
       height: 100%;
     }
     .right .sideside{
@@ -97,7 +96,7 @@
       justify-content: space-between;
       align-items: center;
       float: left;
-      width: 97.5%;
+      width: 100%;
     }
     .sideside div{
       height: 100%;
@@ -107,7 +106,7 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      width: 45%;
+      width: 55%;
       height: 100%;
     }
     .date .dateinputs{
@@ -194,8 +193,6 @@
     .bg-mobile{
       display: none;
     }
-    hsl(249, 99%, 64%) to hsl(278, 94%, 30%)
-    --active-linear: linear-gradient(90deg, hsl(249, 99%, 64%) 0%, hsl(278, 94%, 30%) 50%, transparent 50%, transparent 100%);
     .right .input input:focus{
       border: 1px solid 
     }
@@ -278,11 +275,11 @@
         font-size: .7rem;
         height: 50%;
       }
-      .right div input{
+      .right div borders{
         height: 60%;
         font-size: 1rem;
       }
-      .right .dateinputs input{
+      .right .dateinputs borders{
         width: 45%;
         height: 100%;
       }
@@ -297,10 +294,24 @@
       }
     }
     input[type=text]{
-      padding-left: 5%;
+      padding-left: 15px;
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      border-radius: 7px;
+      background-color: transparent;
     }
-    .input input{
-      outline: linear-gradient(to right, #6448fe 0%, #600594 100%) solid 10px;
+    input[type=text]:focus{
+      border: none;
+    }
+
+    borders{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid hsl(0, 0%, 90%);
+      outline: none;
     }
   </style>
 </head>
@@ -328,23 +339,33 @@
   <div class="input">
     <div class="cardholder">
       <label for="text">CARDHOLDER NAME</label>
-      <input type="text" class="holderinput" maxlength="20" placeholder="e.g. Jane Appleseed">
+      <borders class="border">
+        <input type="text" class="holderinput" maxlength="20" placeholder="e.g. Jane Appleseed">
+      </borders>
     </div>
     <div class="card-number">
       <label for="text">CARD NUMBER</label>
-      <input type="text" class="numberinput" maxlength="19" placeholder="e.g. 1234 5678 9123 0000">
+      <borders class="border">
+        <input type="text" class="numberinput" maxlength="19" placeholder="e.g. 1234 5678 9123 0000">
+      </borders>
     </div>
     <div class="sideside">
       <div class="date">
         <label for="text">EXP. DATE (MM/YY)</label>
         <div class="dateinputs">
-          <input type="text" class="minput" maxlength="2" placeholder="MM">
-          <input type="text" class="yinput" maxlength="2" placeholder="YY">
+          <borders class="border">
+            <input type="text" class="minput" maxlength="2" placeholder="MM">
+          </borders>
+          <borders class="border">
+            <input type="text" class="yinput" maxlength="2" placeholder="YY">
+          </borders>
         </div>
       </div>
       <div class="cvv">
         <label for="text">CVC</label>
-        <input type="text" class="cvvinput" maxlength="3" placeholder="e.g. 123">
+        <borders class="border">
+          <input type="text" class="cvvinput" maxlength="3" placeholder="e.g. 123">
+        </borders>
       </div>
     </div>
     <input class="submit" type="submit" value="Confirm">
