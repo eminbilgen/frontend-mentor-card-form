@@ -45,7 +45,7 @@ Users should be able to:
 
 - Website - [Emin Bilgen](https://eminbilgen.github.io)
 - Frontend Mentor - [@eminbilgen](https://www.frontendmentor.io/profile/eminbilgen)
-- Twitter - [@yourusername](https://www.twitter.com/eminbilgen00)
+- Twitter - [@eminbilgen00](https://www.twitter.com/eminbilgen00)
 
 
 ## Acknowledgments
