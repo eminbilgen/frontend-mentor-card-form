@@ -1,4 +1,3 @@
-Deploy from eminbilgen: https://radiant-boba-4b9d4f.netlify.app/
 
 # Frontend Mentor - Interactive card details form solution
 
