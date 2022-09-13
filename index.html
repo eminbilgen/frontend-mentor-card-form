@@ -18,6 +18,7 @@
       --error-color: hsl(0, 100%, 66%);
       font-family: Space Grotesk, sans-serif;
       display: flex;
+      font-size: 18px;
     }
     .attribution { font-size: 11px; text-align: center; }
     .attribution a { color: hsl(228, 45%, 44%); }
@@ -301,17 +302,61 @@
       outline: none;
       border-radius: 7px;
       background-color: transparent;
-    }
-    input[type=text]:focus{
-      border: none;
-    }
+      border: 2px solid hsl(0, 0%, 90%);
 
+    }
+    .border input[type=text]:focus {
+      border: 2px solid hsl(278, 89%, 43%);
+    }
+    
     borders{
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 2px solid hsl(0, 0%, 90%);
       outline: none;
+    }
+    .submit{
+      border: none;
+      outline: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .success{
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+    .thx{
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: var(--color-primary);
+      height: min-content;
+    }
+    .success p{
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: var(--color-primary);
+    }
+    .success .thx-submit{
+      margin-top: 5%;
+      width: 100%;
+      height: 50px;
+      border: none;
+      outline: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 1rem;
+      color: white;
+      background-color: var(--color-primary);
+    }
+    .success a{
+      text-decoration: none;
+      color: var(--color-primary);
+      width: 100%;
     }
   </style>
 </head>
@@ -346,7 +391,7 @@
     <div class="card-number">
       <label for="text">CARD NUMBER</label>
       <borders class="border">
-        <input type="text" class="numberinput" maxlength="19" placeholder="e.g. 1234 5678 9123 0000">
+        <input type="text" class="numberinput" maxlength="16" placeholder="e.g. 1234 5678 9123 0000">
       </borders>
     </div>
     <div class="sideside">
@@ -371,12 +416,21 @@
     <input class="submit" type="submit" value="Confirm">
     
   </div>
+  <div class="success" style="display: none;">
+    <img class="thx-img" src="images/icon-complete.svg" alt="">
+    <h1 class="thx">THANK YOU!</h1>
+    <p class="thx-prg">We've added your card details</p>
+    <a href="https://github.com/eminbilgen"><input class="thx-submit" type="submit" value="Continue"></a>
+  </div>
   <!--- <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
     Coded by <a href="https://github.com/eminbilgen">eminbilgen</a>.
   </div> --->
 </div>
   <script>
+    // declare variables
+    var regexLetter = /^[a-zA-Z]+$/
+    var regexNumber = /^[0-9]+$/
     const holderinput = document.querySelector('.holderinput');
     const numberinput = document.querySelector('.card-number input');
     const minput = document.querySelector('.minput');
@@ -387,7 +441,12 @@
     const month = document.querySelector('.month');
     const year = document.querySelector('.year');
     const cvvc = document.querySelector('.cvvc');
-    function cc_format(value) {
+    const submit = document.querySelector('.submit');
+    const success = document.querySelector('.success');
+    const inputt = document.querySelector('.input');
+
+    // splits card number into 4 digits
+    function cc_format(value, isOkey) {
       var v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
       var matches = v.match(/\d{4,16}/g);
       var match = matches && matches[0] || ''
@@ -397,30 +456,107 @@
       }
       if (parts.length) {
         number.textContent = parts.join(' ');
-        numberinput.value = parts.join(' ');
         return parts.join(' ')
+      } else if(isOkey){
+        numberinput.value = parts.join(' ');
       } else {
         return value
       }
     }
+
+    // check if submit button is clicked
+    submit.addEventListener('click', function(){
+      if(holderinput.value == "" || numberinput.value == "" || minput.value == "" || yinput.value == "" || cvvinput.value == "" || numberinput.value.length < 16 || minput.value.length < 2 || yinput.value.length < 2 || cvvinput.value.length < 3 ){
+        alert("Please fill all the fields true!");
+      } else {
+        inputt.style.display = "none";
+        success.style.display = "flex";
+      }
+    })
+
+    // checks if input is empty
+    function isEmpty(input){
+      if(input.value == ""){
+        input.style.border = "2px solid hsl(0, 100%, 66%)";
+        return true;
+      }else{
+        input.style.border = "2px solid hsl(0, 0%, 90%)";
+        return false;
+      }
+    }
+
+    // checks if input is a letter or number
+    function checkValid(validType, input){
+      if(validType === "letter"){
+        if(regexLetter.test(input.value)){
+          return true;
+        }else{
+          return false;
+        }
+      }
+      if(validType === "number"){
+        if(regexNumber.test(input.value)){
+          return true;
+        }else{
+          return false;
+        }
+      }
+    }
+    // do checks and change card info when inputs are changed
     holderinput.addEventListener('input', function(){
-      holder.textContent = holderinput.value;
+      if(isEmpty(holderinput)){
+        holder.textContent = "Jane Appleseed";
+      }else{
+        if(checkValid("letter", holderinput)){
+          holder.textContent = holderinput.value;
+        }else{
+          holderinput.value = holderinput.value.slice(0, -1);
+        }
+      }
     });
     numberinput.addEventListener('input', function(){
-      number.textContent = numberinput.value;
-      if(numberinput.textContent == ''){
-        number.textContent = '0000 0000 0000 0000';
+      if(isEmpty(numberinput)){
+        number.textContent = "0000 0000 0000 0000";
+      }else{
+        if(checkValid("number", numberinput)){
+          number.textContent = cc_format(numberinput.value);
+        }else{
+          numberinput.value = numberinput.value.slice(0, -1);
+        }
       }
-      cc_format(numberinput.value);
     });
     minput.addEventListener('input', function(){
-      month.textContent = minput.value;
+      if(isEmpty(minput)){
+        month.textContent = "00";
+      }else{
+        if(checkValid("number", minput)){
+          month.textContent = minput.value;
+        }else{
+          minput.value = minput.value.slice(0, -1);
+        }
+      }
     });
     yinput.addEventListener('input', function(){
-      year.textContent = yinput.value;
+      if(isEmpty(yinput)){
+        year.textContent = "00";
+      }else{
+        if(checkValid("number", yinput)){
+          year.textContent = yinput.value;
+        }else{
+          yinput.value = yinput.value.slice(0, -1);
+        }
+      }
     });
     cvvinput.addEventListener('input', function(){
-      cvvc.textContent = cvvinput.value;
+      if(isEmpty(cvvinput)){
+        cvvc.textContent = "000";
+      }else{
+        if(checkValid("number", cvvinput)){
+          cvvc.textContent = cvvinput.value;
+        }else{
+          cvvinput.value = cvvinput.value.slice(0, -1);
+        }
+      }
     });
 
   </script>
